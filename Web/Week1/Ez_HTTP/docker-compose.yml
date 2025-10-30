@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  web:
+    container_name: week1-Ez_HTTP
+    build: .
+    ports:
+      - "30002:80"

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stocking的蛋糕烘焙坊</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🧁 Stocking的蛋糕烘焙坊 🧁</h1>
+        <div class="stocking-character">
+            <p>欢迎光临！请上传你的烘焙秘籍~</p>
+        </div>
+        
+        <div class="upload-section">
+            <h3>烘焙秘籍</h3>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" name="model" accept=".pth" required>
+                <button type="submit">上传秘籍</button>
+            </form>
+            <div id="uploadStatus"></div>
+        </div>
+        
+        <div class="instructions">
+            <h3>说明：</h3>
+            <ul>
+                <li>不要让蛋糕坏掉哦~</li>
+                <li>蛋糕就算坏掉也绝对不能变成毒苹果！</li>
+                <li>堕天城只接受pth的秘籍ヽ（≧□≦）ノ</li>
+            </ul>
+        </div>
+        
+        <div class="next-step">
+            <a href="/test_cake">前往烘焙 →</a>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('uploadForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            const response = await fetch('/upload_model', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            const statusDiv = document.getElementById('uploadStatus');
+            
+            if (result.success) {
+                statusDiv.innerHTML = '<p style="color: green;">秘籍上传成功！</p>';
+                document.querySelector('.next-step').style.display = 'block';
+            } else {
+                statusDiv.innerHTML = '<p style="color: red;">错误: ' + result.error + '</p>';
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  ez_phar:
+    build: .
+    ports:
+      - "10057:8000"

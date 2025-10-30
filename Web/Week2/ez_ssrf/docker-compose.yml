@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  dns-ssrf:
+    build: .
+    ports:
+      - "60087:8000"

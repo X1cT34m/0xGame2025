@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}你是小学生吗{% endblock %}</title>
+</head>
+<body>
+    <h1>
+    {% block body %}
+    你还太小了，请回吧
+    {% endblock %}
+    </h1>
+    <script>
+        // 设置延时跳转
+        setTimeout(function() {
+            window.location.href = "/"; // 跳转到根目录
+        }, 3000); // 3000 毫秒（3秒）后跳转
+    </script>
+</body>
+</html>

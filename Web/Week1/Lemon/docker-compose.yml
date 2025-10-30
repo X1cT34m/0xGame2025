@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  lemon:
+    container_name: lemon
+    build: .
+    ports:
+      - "12345:80"
