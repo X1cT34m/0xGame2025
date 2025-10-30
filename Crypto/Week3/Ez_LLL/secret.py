@@ -1,0 +1,1 @@
+flag = b"0xGame{8dc1f4b8-3f4e-4c3e-9d1a-2b5e6f7a8b9c}"

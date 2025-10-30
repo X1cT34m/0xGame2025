@@ -1,0 +1,1 @@
+flag = b"0xGame{F4ct0rDB_1s_usefu1_r19ht?}"

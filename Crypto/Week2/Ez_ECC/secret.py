@@ -1,0 +1,1 @@
+flag = b"0xgame{ECC_1s_4w3s0m3_but_n0t_perf3ct}"
