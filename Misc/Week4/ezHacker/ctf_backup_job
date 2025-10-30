@@ -1,0 +1,2 @@
+* * * * * root /bin/sh -c "cd /home/ctf && rsync -t *.txt 0xGame:/tmp/backup/"
+# congratulations!,this is key to be king!
