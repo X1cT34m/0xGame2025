@@ -1,0 +1,20 @@
+
+services:
+  ctf_exif_challenge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    ports:
+      - "8080:5000"
+      
+    restart: always
+    
+    # ***** 资源限制优化 *****
+    deploy:
+      resources:
+        limits:
+          # 限制 CPU 核心使用量到四分之一
+          cpus: "1"
+          # 限制内存使用到 64MB
+          memory: "64M"

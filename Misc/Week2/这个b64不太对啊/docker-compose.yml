@@ -1,0 +1,9 @@
+
+services:
+  challenge:
+    build:
+      context: .
+    container_name: ctf-base64-challenge-service
+    ports:
+      - "5555:5555"
+    restart: always
