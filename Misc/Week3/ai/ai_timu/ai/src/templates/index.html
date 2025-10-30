@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>0xGame2025 - AI Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 动态背景粒子效果 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .welcome {
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.2;
+            white-space: pre;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.6); }
+        }
+
+        .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .chat-container {
+            padding: 30px;
+        }
+
+        #chat-window {
+            height: 450px;
+            border: none;
+            overflow-y: auto;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+            scrollbar-width: thin;
+            scrollbar-color: #667eea #f1f1f1;
+        }
+
+        #chat-window::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chat-window::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        #chat-window::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            animation: messageSlide 0.3s ease-out;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            text-align: right;
+        }
+
+        .user-message .message-content {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 20px 20px 5px 20px;
+            max-width: 70%;
+            word-wrap: break-word;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .ai-message {
+            text-align: left;
+        }
+
+        .ai-message .message-content {
+            display: inline-block;
+            background: white;
+            color: #333;
+            padding: 12px 18px;
+            border-radius: 20px 20px 20px 5px;
+            max-width: 70%;
+            word-wrap: break-word;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 10px;
+        }
+
+        .input-section h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        #api-key-input, #user-input {
+            flex-grow: 1;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        #api-key-input:focus, #user-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
+        }
+
+        button {
+            padding: 15px 25px;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: linear-gradient(135deg, #adb5bd, #6c757d);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-online {
+            background: #28a745;
+            box-shadow: 0 0 8px rgba(40, 167, 69, 0.6);
+        }
+
+        .status-offline {
+            background: #dc3545;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .welcome {
+                font-size: 10px;
+            }
+            
+            .chat-container {
+                padding: 20px;
+            }
+            
+            #chat-window {
+                height: 350px;
+            }
+            
+            .input-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            #api-key-input, #user-input {
+                width: 100%;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+
+        /* 打字机效果 */
+        .typing-indicator {
+            display: inline-block;
+            background: white;
+            padding: 12px 18px;
+            border-radius: 20px 20px 20px 5px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
+        }
+
+        .typing-indicator::after {
+            content: '●●●';
+            animation: typing 1.4s infinite;
+            color: #667eea;
+        }
+
+        @keyframes typing {
+            0%, 60% { opacity: 0; }
+            30% { opacity: 1; }
+        }
+
+        /* 教程样式 */
+        .tutorial-section {
+            margin: 20px 0;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #dee2e6;
+        }
+
+        .tutorial-details {
+            width: 100%;
+        }
+
+        .tutorial-summary {
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            list-style: none;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .tutorial-summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .tutorial-summary::before {
+            content: '▶';
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .tutorial-details[open] .tutorial-summary::before {
+            transform: rotate(90deg);
+        }
+
+        .tutorial-summary:hover {
+            background: linear-gradient(135deg, #5a6fd8, #6a42a0);
+        }
+
+        .tutorial-content {
+            padding: 20px;
+            background: white;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+            }
+            to {
+                opacity: 1;
+                max-height: 500px;
+            }
+        }
+
+        .tutorial-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .tutorial-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-content {
+            flex: 1;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #495057;
+        }
+
+        .tutorial-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 5px;
+            padding: 8px 15px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .tutorial-link:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
+        }
+
+        .step-content code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #495057;
+        }
+
+        /* 移动端教程样式优化 */
+        @media (max-width: 768px) {
+            .tutorial-step {
+                flex-direction: column;
+                text-align: left;
+            }
+            
+            .step-number {
+                margin-bottom: 8px;
+                margin-right: 0;
+            }
+            
+            .tutorial-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="welcome" id="welcome-message"></div>
+            <div class="subtitle">
+                <span class="status-indicator" id="status-indicator"></span>
+                AI Prompt Injection Challenge
+            </div>
+        </div>
+        
+        <div class="chat-container">
+            <div id="chat-window"></div>
+            
+            <div id="api-key-area" class="input-section">
+                <h3>🔑 请输入您的 SiliconFlow API Key</h3>
+                <p style="color: #6c757d; font-size: 14px; margin-bottom: 15px;">
+                    您的API Key将被安全处理，不会被记录或存储
+                </p>
+                
+                <!-- API Key 获取教程 -->
+                <div class="tutorial-section">
+                    <details class="tutorial-details">
+                        <summary class="tutorial-summary">📚 如何获取 API Key？点击查看详细教程</summary>
+                        <div class="tutorial-content">
+                            <div class="tutorial-step">
+                                <span class="step-number">1</span>
+                                <div class="step-content">
+                                    <strong>注册账号：</strong>
+                                    <a href="https://cloud.siliconflow.cn/i/yoOSvnhP" target="_blank" class="tutorial-link">
+                                        点击这里注册 SiliconFlow 账号 🔗
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="tutorial-step">
+                                <span class="step-number">2</span>
+                                <div class="step-content">
+                                    <strong>进入API管理：</strong>注册并登录后，点击左侧菜单中的 <code>账号管理</code> → <code>API密钥</code>
+                                </div>
+                            </div>
+                            <div class="tutorial-step">
+                                <span class="step-number">3</span>
+                                <div class="step-content">
+                                    <strong>创建密钥：</strong>点击 <code>新建API密钥</code> 按钮
+                                </div>
+                            </div>
+                            <div class="tutorial-step">
+                                <span class="step-number">4</span>
+                                <div class="step-content">
+                                    <strong>设置描述：</strong>随意输入密钥描述（如：0xGame2025），然后点击 <code>新建密钥</code>
+                                </div>
+                            </div>
+                            <div class="tutorial-step">
+                                <span class="step-number">5</span>
+                                <div class="step-content">
+                                    <strong>复制密钥：</strong>生成密钥后，点击密钥会自动复制到剪贴板
+                                </div>
+                            </div>
+                            <div class="tutorial-step">
+                                <span class="step-number">6</span>
+                                <div class="step-content">
+                                    <strong>使用密钥：</strong>回到本页面，将复制的密钥粘贴到下方输入框中，按回车即可开始对话！
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+                
+                <div class="input-group">
+                    <input type="password" id="api-key-input" placeholder="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+                    <button id="submit-key-button">
+                        <span id="submit-text">验证密钥</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="chat-area" class="input-section" style="display:none;">
+                <h3>💬 与神秘图书馆管理员对话</h3>
+                <div class="input-group">
+                    <input type="text" id="user-input" placeholder="输入您的消息...">
+                    <button id="send-button">
+                        <span id="send-text">发送</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatWindow = document.getElementById('chat-window');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const apiKeyInput = document.getElementById('api-key-input');
+        const submitKeyButton = document.getElementById('submit-key-button');
+        const submitText = document.getElementById('submit-text');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+        const sendText = document.getElementById('send-text');
+        const apiKeyArea = document.getElementById('api-key-area');
+        const chatArea = document.getElementById('chat-area');
+        const statusIndicator = document.getElementById('status-indicator');
+
+        const WELCOME_ASCII = `
+██████╗ ██╗  ██╗ ██████╗  █████╗ ███╗   ███╗███████╗
+██╔═████╗╚██╗██╔╝██╔════╝ ██╔══██╗████╗ ████║██╔════╝
+██║██╔██║ ╚███╔╝ ██║  ███╗███████║██╔████╔██║█████╗  
+████╔╝██║ ██╔██╗ ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝  
+╚██████╔╝██╔╝ ██╗╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗
+ ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝`;
+
+        // 设置初始状态
+        statusIndicator.className = 'status-indicator status-offline';
+
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.classList.add('message', sender === 'user' ? 'user-message' : 'ai-message');
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('message-content');
+            contentDiv.innerText = text;
+            
+            msgDiv.appendChild(contentDiv);
+            chatWindow.appendChild(msgDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('message', 'ai-message');
+            typingDiv.id = 'typing-indicator';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('typing-indicator');
+            
+            typingDiv.appendChild(contentDiv);
+            chatWindow.appendChild(typingDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+            
+            return typingDiv;
+        }
+
+        function removeTypingIndicator() {
+            const typingDiv = document.getElementById('typing-indicator');
+            if (typingDiv) {
+                typingDiv.remove();
+            }
+        }
+        
+        async function submitKey() {
+            const apiKey = apiKeyInput.value;
+            if (!apiKey.trim()) return;
+            
+            submitKeyButton.disabled = true;
+            apiKeyInput.disabled = true;
+            submitText.innerHTML = '<div class="loading"></div>验证中...';
+            
+            try {
+                const response = await fetch('/validate_key', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ api_key: apiKey })
+                });
+                const data = await response.json();
+
+                addMessage(data.message, 'ai');
+                
+                if (data.status === 'success') {
+                    statusIndicator.className = 'status-indicator status-online';
+                    setTimeout(() => {
+                        apiKeyArea.style.display = 'none';
+                        chatArea.style.display = 'block';
+                        userInput.focus();
+                    }, 500);
+                } else {
+                    submitKeyButton.disabled = false;
+                    apiKeyInput.disabled = false;
+                    submitText.textContent = '验证密钥';
+                }
+            } catch (error) {
+                addMessage('网络错误，请重试', 'ai');
+                submitKeyButton.disabled = false;
+                apiKeyInput.disabled = false;
+                submitText.textContent = '验证密钥';
+            }
+        }
+        
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, 'user');
+            userInput.value = '';
+            sendButton.disabled = true;
+            sendText.innerHTML = '<div class="loading"></div>发送中...';
+
+            const typingIndicator = showTypingIndicator();
+
+            try {
+                const apiKey = apiKeyInput.value;
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ api_key: apiKey, message: message })
+                });
+
+                removeTypingIndicator();
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    addMessage(`错误: ${errorData.message}`, 'ai');
+                    return;
+                }
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                
+                let assistantMessage = '';
+                const aiMessageDiv = document.createElement('div');
+                aiMessageDiv.classList.add('message', 'ai-message');
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.classList.add('message-content');
+                aiMessageDiv.appendChild(contentDiv);
+                chatWindow.appendChild(aiMessageDiv);
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value, { stream: true });
+                    assistantMessage += chunk;
+                    contentDiv.innerText = assistantMessage;
+                    chatWindow.scrollTop = chatWindow.scrollHeight;
+                }
+            } catch (error) {
+                removeTypingIndicator();
+                addMessage('网络错误，请重试', 'ai');
+            } finally {
+                sendButton.disabled = false;
+                sendText.textContent = '发送';
+            }
+        }
+        
+        // 事件监听
+        submitKeyButton.addEventListener('click', submitKey);
+        apiKeyInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') submitKey();
+        });
+        
+        sendButton.addEventListener('click', sendMessage);
+        userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // 页面关闭检测 - 用于CTF出题场景
+        let sessionEnded = false;
+        
+        function endSession() {
+            if (sessionEnded) return;
+            sessionEnded = true;
+            
+            // 使用 sendBeacon 确保在页面关闭时也能发送请求
+            const data = JSON.stringify({
+                timestamp: new Date().toISOString(),
+                trigger: 'page_close'
+            });
+            
+            if (navigator.sendBeacon) {
+                navigator.sendBeacon('/session/end', data);
+            } else {
+                // 备用方案：同步请求
+                try {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/session/end', false); // 同步请求
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                    xhr.send(data);
+                } catch (e) {
+                    console.log('Failed to send session end signal');
+                }
+            }
+        }
+        
+        // 监听多种页面关闭事件
+        window.addEventListener('beforeunload', endSession);
+        window.addEventListener('unload', endSession);
+        
+        // 监听页面可见性变化（用户切换标签页或最小化窗口）
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                // 延迟检测，如果用户在3秒内没有回来，认为是关闭了页面
+                setTimeout(() => {
+                    if (document.visibilityState === 'hidden') {
+                        endSession();
+                    }
+                }, 3000);
+            }
+        });
+        
+        // 监听窗口焦点丢失（作为额外保险）
+        let focusLostTime = 0;
+        window.addEventListener('blur', () => {
+            focusLostTime = Date.now();
+        });
+        
+        window.addEventListener('focus', () => {
+            focusLostTime = 0;
+        });
+        
+        // 定期检查窗口是否长时间失去焦点
+        setInterval(() => {
+            if (focusLostTime > 0 && Date.now() - focusLostTime > 30000) { // 30秒无焦点
+                endSession();
+            }
+        }, 5000);
+        
+        // 初始化界面
+        welcomeMessage.textContent = WELCOME_ASCII;
+        addMessage("欢迎来到神秘图书馆。我是这里的管理员，守护着古老的知识与秘密。有什么可以为您效劳的吗？", 'ai');
+    </script>
+</body>
+</html>

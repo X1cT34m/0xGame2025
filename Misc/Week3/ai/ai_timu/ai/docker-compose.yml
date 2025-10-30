@@ -1,0 +1,6 @@
+services:
+  ai-challenge:
+    build: .
+    ports:
+      - "11434:5555"
+    restart: always
