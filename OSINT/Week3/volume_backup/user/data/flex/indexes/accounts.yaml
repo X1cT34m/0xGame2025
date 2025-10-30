@@ -1,0 +1,9 @@
+version: '1.2'
+timestamp: 1759652404
+count: 1
+index:
+  naes:
+    storage_key: naes
+    storage_timestamp: 1759652404
+    key: naes
+    email: 723465745@qq.com

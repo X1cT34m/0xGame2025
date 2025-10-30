@@ -1,0 +1,30 @@
+<?php
+return [
+    '@class' => 'Grav\\Common\\File\\CompiledYamlFile',
+    'filename' => '/var/www/html/user/accounts/naes.yaml',
+    'modified' => 1759652404,
+    'size' => 350,
+    'data' => [
+        'state' => 'enabled',
+        'email' => '723465745@qq.com',
+        'fullname' => 'Chen Yue',
+        'title' => 'Administartor',
+        'hashed_password' => '$2y$10$MMfiDAR6O5PPrVfSmqcexel2LNM2b/f8dGfptnAyxu4UHIxKHqjhe',
+        'language' => 'zh',
+        'content_editor' => 'default',
+        'twofa_enabled' => false,
+        'twofa_secret' => '7VDU7U5MYVCF2AA24OANCCKIHSIWSFVD',
+        'avatar' => [
+            
+        ],
+        'access' => [
+            'site' => [
+                'login' => true
+            ],
+            'admin' => [
+                'login' => true,
+                'super' => true
+            ]
+        ]
+    ]
+];
