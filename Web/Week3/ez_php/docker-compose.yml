@@ -1,0 +1,8 @@
+version: "3"
+
+services:
+  vab:
+    container_name: bianliang
+    build: .
+    ports:
+      - "7777:80"

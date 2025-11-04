@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>太空歌剧</title>
+</head>
+<body>
+    <h1>Welcome to My World !!!</h1>
+    <h2>您是：{{person.name}}</h2>
+    <h2>您的年龄是: {{person.age}}</h2>
+    <h2>您爱玩的游戏是: {{person.Game}}</h2>
+    <h2>您的邮箱是: {{user.email}}</h2>
+    <!-- loop循环 muted静音 autoplay自动播放 -->
+     <!-- 下拉菜单 -->
+    <div class="dropdown">
+        <label for="page-select">选择你喜欢的页面吧：</label>
+        <select id="page-select" onchange="handleSelectChange()">
+            <option value="/dashboard">dashboard</option>
+            <option value="/blog/no_flag">blog</option>
+            <option value="/control">小网站</option>
+        </select>
+    </div>
+
+    <script>
+        function handleSelectChange() {
+            const selectElement = document.getElementById('page-select');
+            const selectedUrl = selectElement.value;
+            if (selectedUrl) {
+                window.location.href = selectedUrl;
+            }
+        }
+    </script>
+    <!-- 视频 -->
+    </br>
+    <video width="1280" height="720" controls>
+        <source src="{{ url_for('static', filename='videos/StarRailway.mp4') }}" type="video/mp4">
+    </video>
+</body>
+</html>

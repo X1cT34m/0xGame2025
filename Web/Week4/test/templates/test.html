@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>测测你的</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🍰 烘培蛋糕！ 🍰</h1>
+        
+        <div class="test-section">
+            <h3>上传原料</h3>
+            <form id="testForm" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/*" required>
+                <button type="submit">开始烘培</button>
+            </form>
+        </div>
+        
+        <div id="result"></div>
+        
+        <div class="tips">
+            <h4>说明：</h4>
+            <p>蛋糕如果坏掉了就不好吃了</p>
+            <p>千万不要给我毒苹果！</p>
+            <img src="{{ url_for('static', filename='images/cake.png') }}" alt="蛋糕示例" style="width:200px;">
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('testForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            
+            const response = await fetch('/test_cake', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            const resultDiv = document.getElementById('result');
+            
+            if (result.error) {
+                resultDiv.innerHTML = '<p style="color: red;">错误: ' + result.error + '</p>';
+            } else {
+                let html = `
+                    <div class="result-box">
+                        <p>Cake: ${result.cake_confidence}%</p>
+                        <p>Porisoned_Apple: ${result.poisoned_apple_confidence}%</p>
+                        <p>Other: ${result.other_confidence}%</p>
+                        <p>Result: <strong>${result.predicted_class}</strong></p>
+                `;
+                
+                if (result.flag) {
+                    html += `
+                        <div class="flag-box">
+                            <p>🎉 FLAG: <code>${result.flag}</code></p>
+                            <p>${result.message}</p>
+                        </div>
+                    `;
+                }
+                
+                html += '</div>';
+                resultDiv.innerHTML = html;
+            }
+        };
+    </script>
+</body>
+</html>

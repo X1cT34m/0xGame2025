@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Welcome Admin</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: #f5f5f5;
+      font-family: Arial, Helvetica, sans-serif;
+      padding-top: 40px;
+    }
+
+    .image-container {
+      width: 80%;
+      max-width: 600px;
+      margin-bottom: 30px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: -5px 5px 20px rgba(210, 210, 210, 0.8);
+    }
+
+    .image-container img {
+      width: 100%;
+      display: block;
+    }
+
+    .card {
+      width: 400px;
+      box-shadow: -10px 10px 25px rgba(210, 210, 210, .9);
+      border-radius: 35px;
+      background: #fff;
+      padding: 50px;
+      text-align: center;
+    }
+
+    .card h2 {
+      color: #20b2aa;
+      margin-bottom: 20px;
+    }
+
+    .card p {
+      font-size: 1.2em;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .card button {
+      display: inline-block;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 12px;
+      background: #20b2aa;
+      color: #fff;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .card button:hover {
+      background: #1a9a9a;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 30px;
+      border-radius: 12px;
+      background: #20b2aa;
+      color: #fff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="image-container">
+    <img src="/images/image.png" alt="Admin Banner">
+  </div>
+
+  <div class="card">
+    <h2>于长夜重返大地</h2>
+    <p>翁法罗斯三月•长夜月，长夜月现身，聪明的开拓者想让可爱的三月七回来，就得回溯到长夜月发布之前...</p>
+    <p>「翁法罗斯的三月，是属于永夜之帷的时间…就以『长夜月』这个名字，来称呼这具化身——『她』的影子吧。」</p>
+    <p>与世相隔的忆域，烛火映出过往，于迷雾中悄然熄去。
+      自那影中而来的记忆之子长夜月，隐匿「岁月」火种的黄金裔，你要掀起「忘却」的浪潮，守护镜中人的心愿
+      ——「别担心，我会为你看护『开拓』的前路…不惜任何代价♭」</p>
+
+      <button id="submitBtn">提交有关长夜月的数据</button>
+
+
+      <a href="/login">Logout</a>
+    </div>
+    <script>
+      document.getElementById('submitBtn').addEventListener('click', async () => {
+          const payload = {
+              name: "EverNight",
+              default_path: "The Remembrance",
+              place: "Amphoreus",
+              min_public_time: "2025-08-03"
+          };
+  
+          try {
+              const token = document.cookie.split('token=')[1]?.split(';')[0];
+              const res = await fetch('/admin_club1st', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'Authorization': 'Bearer ' + token
+                  },
+                  body: JSON.stringify(payload)
+              });
+          } catch (err) {
+              alert('Error: ' + err.message);
+          }
+      });
+    </script>
+</body>
+</html>

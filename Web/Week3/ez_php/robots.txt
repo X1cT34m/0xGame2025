@@ -1,0 +1,2 @@
+Disallow:/asdback.php
+allow:https://sj1t.cn/2024/01/04/%E5%8A%A8%E6%80%81Flag%E5%AE%9E%E7%8E%B0/index.html

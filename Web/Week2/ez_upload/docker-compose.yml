@@ -1,0 +1,6 @@
+version: "3"
+services:
+  png-web:
+    build: .
+    ports:
+      - "10055:8000"

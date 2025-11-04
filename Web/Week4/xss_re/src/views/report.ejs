@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.2/css/bootstrap.css" rel="stylesheet">
+        <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.2/js/bootstrap.bundle.js"></script>    
+        <title>Report</title>
+    </head>
+
+    <body class="text-center">
+        <div class="container pt-5">
+        <h1 class="h1 mb-3 font-weight-normal">Report</h1>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col">
+                    <p>Enter a url and the admin bot will visit it later</p>
+                    <form method="post" action="/report">
+                        <% if (locals.message) { %>
+                            <div class="alert alert-info" role="alert">
+                                <%- locals.message %>
+                            </div>
+                        <% } %>
+                        <div class="mb-3 mt-3">
+                            <input type="text" class="form-control" name="url" placeholder="Report URL" required>
+                        </div>
+                        <button class="btn btn-primary" type="submit">Report</button>
+                    </form>
+                    <a href="/logout">Logout</a>
+                </div>
+                <div class="col"></div>
+              </div>
+        </div>
+    </body>
+</html>

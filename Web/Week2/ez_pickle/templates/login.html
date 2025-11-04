@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <!-- <link rel="stylesheet" href="text.css" /> -->
+  </head>
+  <style>
+    .all {
+      width: 800px;
+      box-shadow: -10px 10px 25px rgba(210, 210, 210, 0.9);
+      margin: auto;
+      margin-top: 5%;
+      display: flex;
+      border-radius: 35px;
+      background-color: #ffffff;
+      height: 550px;
+    }
+    .log {
+      width: 50%;
+      margin: auto;
+    }
+    .reg {
+      width: 50%;
+      height: 100%;
+      margin: auto;
+      background-color: #20b2aa;
+      border-radius: 35px;
+      color: #ffffff;
+    }
+    .reg_1 {
+      text-align: center;
+      margin: auto;
+      margin-top: 50%;
+    }
+    .reg_1 h2 {
+      font-weight: 700;
+    }
+    .reg_1 p {
+      margin: 15px 0px 25px 0px;
+    }
+    .sig {
+      width: 70px;
+      height: 30px;
+      border-radius: 12px;
+      background-color: #20b2aa;
+      border-color: #fff;
+      color: #ffffff;
+    }
+    #tiao {
+      padding: 0em 0;
+    }
+    .reg_1 a {
+      color: #ffffff;
+    }
+    h4 {
+      font-size: 3em;
+      color: black;
+      padding-bottom: 1em;
+      margin: 0;
+      text-align: center;
+      font-family: "Marvel-Regular";
+    }
+    .input {
+      margin: 10px 50px;
+      width: 300px;
+      height: 70px;
+    }
+    span {
+      color: #999;
+      font-size: 0.85em;
+      padding-bottom: 0.2em;
+      display: block;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .input-text {
+        border: none;
+        border-bottom: 1px solid #555;
+        outline: none;
+        width: 90%;
+        font-size: 1em;
+        padding: 0.5em 0;  
+        line-height: inherit;
+        background: transparent;
+    }
+
+    .input-text:focus {
+        border-bottom-color: #fd9f3e;
+    }
+    .register-top-grid {
+      color: black;
+      padding-bottom: 1em;
+      margin: 0;
+      font-family: "Marvel-Regular";
+      margin: 10px 0;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .tijiao {
+      color: rgb(255, 253, 253);
+      width: 80px;
+      height: 35px;
+      background-color: rgb(241, 52, 10);
+      border: none;
+    }
+    body {
+        margin: 0;                
+        height: 100vh;           
+        display: flex;            
+        align-items: center;     
+        justify-content: center;  
+    }
+</style>
+  <body>
+    <div class="all">
+      <div class="log">
+        <div class="register">
+          <form method="POST" action="/login">
+            <div class="register-top-grid">
+              <h4>Login</h4>
+              <div class="input">
+                <span>Username <label style="color: red">* </label></span>
+                <input
+                  type="text"
+                  v-model="name"
+                  class="input-text"
+                  name="username"
+                />
+              </div>
+              <div class="input">
+                <span>Password <label style="color: red">*</label></span>
+                <input
+                  type="password"
+                  name="password"
+                  v-model="password"
+                  class="input-text"
+                />
+              </div>
+            </div>
+            <div class="text-center">
+              <input
+                type="submit"
+                value="Submit"
+                class="tijiao"
+                @click="denglu"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="reg">
+        <div class="reg_1">
+          <h2>No Account?</h2>
+          <p>Join Us! May All the Beauty Be Blessed!</p>
+          <a href="/register">
+            <button type="primary" class="sig">Register</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

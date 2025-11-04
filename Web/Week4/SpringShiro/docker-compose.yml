@@ -1,0 +1,7 @@
+version: "3"
+services:
+  web:
+    build: .
+    image: spring-shiro
+    ports:
+    - 8888:8000

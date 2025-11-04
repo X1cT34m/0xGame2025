@@ -1,0 +1,12 @@
+services:
+  shell-challenge:
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 128M
+    build: .
+    container_name: shell-challenge-container_name
+    ports:
+      - "2222:22"
+    restart: always

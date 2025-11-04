@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>不许骗人哦</title>
+</head>
+<body>
+    <form action="/control" method="POST">
+        <label for="age">请输入您的年龄：</label>
+        <input type="text" id="age" name="age" required>
+        <button type="submit">提交</button>
+    </form>
+    <br>
+    <img src="{{ url_for('static', filename='images/ff.jpg') }}" width="720" height="720" alt="芙芙">
+</body>
+</html>

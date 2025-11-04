@@ -1,0 +1,113 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+h1 {
+    color: #ff69b4;
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.stocking-character {
+    text-align: center;
+    background: linear-gradient(45deg, #ffe4e1, #ffc0cb);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.upload-section, .test-section {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+input[type="file"] {
+    display: block;
+    margin: 15px 0;
+    padding: 10px;
+    border: 2px dashed #ff69b4;
+    border-radius: 5px;
+    width: 100%;
+}
+
+button {
+    background: linear-gradient(45deg, #ff69b4, #ff1493);
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.instructions {
+    background: #e3f2fd;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.tips {
+    background: #fff3e0;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.result-box {
+    background: #f1f8e9;
+    padding: 25px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.flag-box {
+    background: linear-gradient(45deg, #ffeb3b, #ffc107);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 15px 0;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.next-step {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.next-step a {
+    display: inline-block;
+    background: #4caf50;
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 18px;
+}

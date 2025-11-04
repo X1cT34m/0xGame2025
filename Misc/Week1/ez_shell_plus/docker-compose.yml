@@ -1,0 +1,21 @@
+
+services:
+  ctf-challenge:
+    build: .
+    image: ctf-challenge:latest
+    container_name: ctf-challenge-final
+    restart: always
+    ports:
+      - "0.0.0.0:5000:22"
+#    read_only: true
+    tmpfs:
+      - /run
+      - /tmp
+      - /var/log
+    security_opt:
+      - no-new-privileges
+    mem_limit: 256m
+    cpus: '0.5'
+
+    
+

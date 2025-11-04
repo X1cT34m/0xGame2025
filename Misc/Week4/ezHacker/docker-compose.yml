@@ -1,0 +1,20 @@
+services:
+  ctf_privesc_box:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: ctf_privesc_box
+
+    ports:
+      - "2222:22"
+    restart: always
+
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 128M
+        reservations:
+          cpus: '0.25'
+          memory: 64M
